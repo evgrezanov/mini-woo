@@ -13,12 +13,12 @@ export async function POST(request: NextRequest) {
             quantity: item.count
         }
     });
-
+    
     const order = await woo.createOrder(line_items, body.comment)
-
+    const customer = await woo.createUser(order);
     // @ts-ignore
     const telegramCurrency = telegramCurrencies[order.currency]
-
+    console.log(JSON.stringify(customer))
     console.log(JSON.stringify(order))
     const prices = order.line_items.map((item: any) => {
         return {
